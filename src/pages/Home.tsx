@@ -1,17 +1,23 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useDebounce } from "use-debounce";
 import { searchMovies } from "../api/tmdb";
 import SearchBar from "../components/SearchBar";
 import MovieCard from "../components/MovieCard";
 import type { TMDBResponse } from "../types/movie";
 
+
+
+
+
 export default function Home() {
   const [query, setQuery] = useState("");
+  const [debouncedQuery] = useDebounce(query, 300);  // waits 300ms after user stops typing
 
   const { data, isLoading, isError } = useQuery<TMDBResponse>({
-    queryKey: ["movies", query],       // re-fetches whenever query changes
-    queryFn: () => searchMovies(query),
-    enabled: query.length > 2,         // only fetch after 3 chars
+    queryKey: ["movies", debouncedQuery],       // re-fetches whenever query changes
+    queryFn: () => searchMovies(debouncedQuery),
+    enabled: debouncedQuery.length > 2,         // only fetch after 3 chars
     staleTime: 1000 * 60 * 5,          // cache results for 5 mins
   });
 
