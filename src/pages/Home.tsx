@@ -6,10 +6,6 @@ import SearchBar from "../components/SearchBar";
 import MovieCard from "../components/MovieCard";
 import type { TMDBResponse } from "../types/movie";
 
-
-
-
-
 export default function Home() {
   const [query, setQuery] = useState("");
   const [debouncedQuery] = useDebounce(query, 300);  // waits 300ms after user stops typing
@@ -22,7 +18,7 @@ export default function Home() {
   });
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8">
+    <div className="max-w-6xl mx-auto px-4 py-6 pb-16">
       <h1 className="text-white text-3xl font-bold mb-6">🎬 CineTrack</h1>
       <SearchBar value={query} onChange={setQuery} />
 
